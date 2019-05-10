@@ -11,9 +11,11 @@ Name | Type | Description | Notes
 **fileName** | **String** |  |  [optional]
 **fileTitle** | **String** |  |  [optional]
 **fileType** | **String** |  |  [optional]
+**isEvidence** | **Boolean** |  |  [optional]
 **isOrdered** | **Boolean** |  |  [optional]
 **isProcessed** | **Boolean** |  |  [optional]
 **isSigned** | **Boolean** |  |  [optional]
+**isSigningCompleted** | **Boolean** |  |  [optional]
 **revisionDate** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 
 

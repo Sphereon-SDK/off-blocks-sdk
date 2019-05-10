@@ -4,7 +4,7 @@
 	<groupId>com.sphereon.sdk</groupId>
 	<artifactId>offblocks-sdk-generator</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>Offblocks API SDK Generator</name>
 
 	<properties>
@@ -12,8 +12,8 @@
 		<sdk-package>com.sphereon.sdk.offblocks</sdk-package>
 		<sdk-package-javascript>SphereonSDKOffblocks</sdk-package-javascript>
 		<sdk-package-csharp>Sphereon.SDK.offblocks</sdk-package-csharp>
-		<sdk-package-version>0.1</sdk-package-version>
-		<sdk-package-version_java>v0_1</sdk-package-version_java>
+		<sdk-package-version>0.2</sdk-package-version>
+		<sdk-package-version_java>v0_2</sdk-package-version_java>
 
 		<swagger-coden-maven-plugin.version>2.2.3</swagger-coden-maven-plugin.version>
 		<swagger-coden-verbose>false</swagger-coden-verbose>

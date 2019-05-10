@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 <a name="authenticateUserUsingPOST"></a>
 # **authenticateUserUsingPOST**
-> Object authenticateUserUsingPOST(loginRequest)
+> JwtAuthenticationResponse authenticateUserUsingPOST(loginRequest)
 
 authenticateUser
 
@@ -24,7 +24,7 @@ authenticateUser
 AuthControllerApi apiInstance = new AuthControllerApi();
 LoginRequest loginRequest = new LoginRequest(); // LoginRequest | loginRequest
 try {
-    Object result = apiInstance.authenticateUserUsingPOST(loginRequest);
+    JwtAuthenticationResponse result = apiInstance.authenticateUserUsingPOST(loginRequest);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AuthControllerApi#authenticateUserUsingPOST");
@@ -40,7 +40,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Object**
+[**JwtAuthenticationResponse**](JwtAuthenticationResponse.md)
 
 ### Authorization
 
@@ -53,7 +53,7 @@ No authorization required
 
 <a name="registerUserUsingPOST"></a>
 # **registerUserUsingPOST**
-> Object registerUserUsingPOST(signUpRequest)
+> JwtAuthenticationResponse registerUserUsingPOST(signUpRequest)
 
 registerUser
 
@@ -67,7 +67,7 @@ registerUser
 AuthControllerApi apiInstance = new AuthControllerApi();
 SignUpRequest signUpRequest = new SignUpRequest(); // SignUpRequest | signUpRequest
 try {
-    Object result = apiInstance.registerUserUsingPOST(signUpRequest);
+    JwtAuthenticationResponse result = apiInstance.registerUserUsingPOST(signUpRequest);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AuthControllerApi#registerUserUsingPOST");
@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Object**
+[**JwtAuthenticationResponse**](JwtAuthenticationResponse.md)
 
 ### Authorization
 
