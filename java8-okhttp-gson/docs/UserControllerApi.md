@@ -1,6 +1,6 @@
 # UserControllerApi
 
-All URIs are relative to *https://52.39.15.26:18080/offblocks*
+All URIs are relative to *https://99.80.121.102:18080/offblocks*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
