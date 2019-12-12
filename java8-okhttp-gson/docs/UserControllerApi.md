@@ -1,12 +1,12 @@
 # UserControllerApi
 
-All URIs are relative to *https://99.80.121.102:18080/offblocks*
+All URIs are relative to *https://api.acc.off-blocks.com/offblocks*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addContactUsingPOST**](UserControllerApi.md#addContactUsingPOST) | **POST** /api/user/contact | addContact
 [**checkEmailAvailabilityUsingGET**](UserControllerApi.md#checkEmailAvailabilityUsingGET) | **GET** /api/user/checkEmailAvailability | checkEmailAvailability
 [**checkUsernameAvailabilityUsingGET**](UserControllerApi.md#checkUsernameAvailabilityUsingGET) | **GET** /api/user/checkUsernameAvailability | checkUsernameAvailability
+[**createOrUpdateContactUsingPOST**](UserControllerApi.md#createOrUpdateContactUsingPOST) | **POST** /api/user/contact | createOrUpdateContact
 [**createSignatoryListsUsingPOST**](UserControllerApi.md#createSignatoryListsUsingPOST) | **POST** /api/user/signatory-list | createSignatoryLists
 [**deleteContactUsingDELETE**](UserControllerApi.md#deleteContactUsingDELETE) | **DELETE** /api/user/contact | deleteContact
 [**deleteSignatoryListUsingDELETE**](UserControllerApi.md#deleteSignatoryListUsingDELETE) | **DELETE** /api/user/signatory-list | deleteSignatoryList
@@ -15,56 +15,17 @@ Method | HTTP request | Description
 [**emailVerificationUsingPOST**](UserControllerApi.md#emailVerificationUsingPOST) | **POST** /api/user/emailVerification | emailVerification
 [**getContactsUsingGET**](UserControllerApi.md#getContactsUsingGET) | **GET** /api/user/contacts | getContacts
 [**getCurrentUserUsingGET**](UserControllerApi.md#getCurrentUserUsingGET) | **GET** /api/user/me | getCurrentUser
+[**getSignatoryListByIdUsingGET**](UserControllerApi.md#getSignatoryListByIdUsingGET) | **GET** /api/user/signatory-list-id | getSignatoryListById
 [**getSignatoryListsUsingGET**](UserControllerApi.md#getSignatoryListsUsingGET) | **GET** /api/user/signatory-list | getSignatoryLists
 [**getUserIdentityChainIdUsingGET**](UserControllerApi.md#getUserIdentityChainIdUsingGET) | **GET** /api/user/chain | getUserIdentityChainId
 [**getUserProfileUsingGET**](UserControllerApi.md#getUserProfileUsingGET) | **GET** /api/users/{username} | getUserProfile
 [**getUsersByNameOrEmailOrStaffNumberUsingGET**](UserControllerApi.md#getUsersByNameOrEmailOrStaffNumberUsingGET) | **GET** /api/users | getUsersByNameOrEmailOrStaffNumber
 [**publicKeyVerificationUsingPOST**](UserControllerApi.md#publicKeyVerificationUsingPOST) | **POST** /api/user/publicKeyVerification | publicKeyVerification
+[**resetUserPasswordUsingPOST**](UserControllerApi.md#resetUserPasswordUsingPOST) | **POST** /api/user/reset-password | resetUserPassword
+[**testEmailUsingGET**](UserControllerApi.md#testEmailUsingGET) | **GET** /api/user/testEmail | testEmail
+[**updateUserSettingsUsingPUT**](UserControllerApi.md#updateUserSettingsUsingPUT) | **PUT** /api/user/settings | updateUserSettings
 [**userActivationUsingPOST**](UserControllerApi.md#userActivationUsingPOST) | **POST** /api/user/activate | userActivation
 
-
-<a name="addContactUsingPOST"></a>
-# **addContactUsingPOST**
-> UserProfile addContactUsingPOST(editUserRequest)
-
-addContact
-
-### Example
-```java
-// Import classes:
-//import com.sphereon.sdk.offblocks.handler.ApiException;
-//import com.sphereon.sdk.offblocks.api.UserControllerApi;
-
-
-UserControllerApi apiInstance = new UserControllerApi();
-EditUserRequest editUserRequest = new EditUserRequest(); // EditUserRequest | editUserRequest
-try {
-    UserProfile result = apiInstance.addContactUsingPOST(editUserRequest);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling UserControllerApi#addContactUsingPOST");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **editUserRequest** | [**EditUserRequest**](EditUserRequest.md)| editUserRequest |
-
-### Return type
-
-[**UserProfile**](UserProfile.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
 
 <a name="checkEmailAvailabilityUsingGET"></a>
 # **checkEmailAvailabilityUsingGET**
@@ -152,6 +113,49 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="createOrUpdateContactUsingPOST"></a>
+# **createOrUpdateContactUsingPOST**
+> UserContactsDTO createOrUpdateContactUsingPOST(userContactsDTO)
+
+createOrUpdateContact
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+UserContactsDTO userContactsDTO = new UserContactsDTO(); // UserContactsDTO | userContactsDTO
+try {
+    UserContactsDTO result = apiInstance.createOrUpdateContactUsingPOST(userContactsDTO);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#createOrUpdateContactUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userContactsDTO** | [**UserContactsDTO**](UserContactsDTO.md)| userContactsDTO |
+
+### Return type
+
+[**UserContactsDTO**](UserContactsDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
 <a name="createSignatoryListsUsingPOST"></a>
 # **createSignatoryListsUsingPOST**
 > SignatoryListsDTO createSignatoryListsUsingPOST(signatoryListsRequest)
@@ -197,7 +201,7 @@ No authorization required
 
 <a name="deleteContactUsingDELETE"></a>
 # **deleteContactUsingDELETE**
-> ModelApiResponse deleteContactUsingDELETE(userId)
+> ModelApiResponse deleteContactUsingDELETE(email)
 
 deleteContact
 
@@ -209,9 +213,9 @@ deleteContact
 
 
 UserControllerApi apiInstance = new UserControllerApi();
-String userId = "userId_example"; // String | userId
+String email = "email_example"; // String | email
 try {
-    ModelApiResponse result = apiInstance.deleteContactUsingDELETE(userId);
+    ModelApiResponse result = apiInstance.deleteContactUsingDELETE(email);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserControllerApi#deleteContactUsingDELETE");
@@ -223,7 +227,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**| userId |
+ **email** | **String**| email |
 
 ### Return type
 
@@ -408,7 +412,7 @@ No authorization required
 
 <a name="getContactsUsingGET"></a>
 # **getContactsUsingGET**
-> List&lt;UserProfile&gt; getContactsUsingGET()
+> List&lt;UserContactsDTO&gt; getContactsUsingGET()
 
 getContacts
 
@@ -421,7 +425,7 @@ getContacts
 
 UserControllerApi apiInstance = new UserControllerApi();
 try {
-    List<UserProfile> result = apiInstance.getContactsUsingGET();
+    List<UserContactsDTO> result = apiInstance.getContactsUsingGET();
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserControllerApi#getContactsUsingGET");
@@ -434,7 +438,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;UserProfile&gt;**](UserProfile.md)
+[**List&lt;UserContactsDTO&gt;**](UserContactsDTO.md)
 
 ### Authorization
 
@@ -502,6 +506,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UserSummary**](UserSummary.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="getSignatoryListByIdUsingGET"></a>
+# **getSignatoryListByIdUsingGET**
+> SignatoryListsDTO getSignatoryListByIdUsingGET(signatoryListId)
+
+getSignatoryListById
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+String signatoryListId = "signatoryListId_example"; // String | signatoryListId
+try {
+    SignatoryListsDTO result = apiInstance.getSignatoryListByIdUsingGET(signatoryListId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#getSignatoryListByIdUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **signatoryListId** | **String**| signatoryListId |
+
+### Return type
+
+[**SignatoryListsDTO**](SignatoryListsDTO.md)
 
 ### Authorization
 
@@ -713,6 +760,131 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UserIdentityAvailability**](UserIdentityAvailability.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="resetUserPasswordUsingPOST"></a>
+# **resetUserPasswordUsingPOST**
+> Boolean resetUserPasswordUsingPOST(email)
+
+resetUserPassword
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+String email = "email_example"; // String | email
+try {
+    Boolean result = apiInstance.resetUserPasswordUsingPOST(email);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#resetUserPasswordUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **email** | **String**| email |
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="testEmailUsingGET"></a>
+# **testEmailUsingGET**
+> Boolean testEmailUsingGET()
+
+testEmail
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+try {
+    Boolean result = apiInstance.testEmailUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#testEmailUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="updateUserSettingsUsingPUT"></a>
+# **updateUserSettingsUsingPUT**
+> UserSettingsDTO updateUserSettingsUsingPUT(userSettingsDTO)
+
+updateUserSettings
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+UserSettingsDTO userSettingsDTO = new UserSettingsDTO(); // UserSettingsDTO | userSettingsDTO
+try {
+    UserSettingsDTO result = apiInstance.updateUserSettingsUsingPUT(userSettingsDTO);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#updateUserSettingsUsingPUT");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userSettingsDTO** | [**UserSettingsDTO**](UserSettingsDTO.md)| userSettingsDTO |
+
+### Return type
+
+[**UserSettingsDTO**](UserSettingsDTO.md)
 
 ### Authorization
 

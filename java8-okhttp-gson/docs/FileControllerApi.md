@@ -1,20 +1,38 @@
 # FileControllerApi
 
-All URIs are relative to *https://99.80.121.102:18080/offblocks*
+All URIs are relative to *https://api.acc.off-blocks.com/offblocks*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**auditFileByHashUsingGET**](FileControllerApi.md#auditFileByHashUsingGET) | **GET** /api/file/audit/by-hash | auditFileByHash
+[**createAnnotatedPdfOnSignatoryUsingPOST**](FileControllerApi.md#createAnnotatedPdfOnSignatoryUsingPOST) | **POST** /api/file/annotated-signatory | createAnnotatedPdfOnSignatory
+[**createAnnotatedPdfUsingPOST**](FileControllerApi.md#createAnnotatedPdfUsingPOST) | **POST** /api/file/annotated-pdf | createAnnotatedPdf
+[**createFileTemplateUsingPOST**](FileControllerApi.md#createFileTemplateUsingPOST) | **POST** /api/file/create-template | createFileTemplate
 [**createFileUsingPOST**](FileControllerApi.md#createFileUsingPOST) | **POST** /api/file/create | createFile
+[**deleteFileUsingDELETE**](FileControllerApi.md#deleteFileUsingDELETE) | **DELETE** /api/file | deleteFile
+[**deleteTemplateUsingDELETE**](FileControllerApi.md#deleteTemplateUsingDELETE) | **DELETE** /api/file/template | deleteTemplate
+[**downloadManagedOutputFileUsingGET**](FileControllerApi.md#downloadManagedOutputFileUsingGET) | **GET** /api/file/managed/download/{fileId} | downloadManagedOutputFile
 [**downloadOutputFileUsingGET**](FileControllerApi.md#downloadOutputFileUsingGET) | **GET** /api/file/download/{fileId} | downloadOutputFile
+[**downloadOutputSignatoryFileUsingGET**](FileControllerApi.md#downloadOutputSignatoryFileUsingGET) | **GET** /api/file/download-signatories/{annotatedFileId} | downloadOutputSignatoryFile
+[**downloadOutputTemplateFileUsingGET**](FileControllerApi.md#downloadOutputTemplateFileUsingGET) | **GET** /api/file/download-template/{templateId} | downloadOutputTemplateFile
 [**fileSignatoryProcessUsingPOST**](FileControllerApi.md#fileSignatoryProcessUsingPOST) | **POST** /api/file/signatory | fileSignatoryProcess
+[**fileSignatoryProcessUsingPOST1**](FileControllerApi.md#fileSignatoryProcessUsingPOST1) | **POST** /api/file/versioned-signatory | fileSignatoryProcess
 [**getFileDetailsByChainIdUsingGET**](FileControllerApi.md#getFileDetailsByChainIdUsingGET) | **GET** /api/file/chain-id | getFileDetailsByChainId
 [**getFileDetailsUsingGET**](FileControllerApi.md#getFileDetailsUsingGET) | **GET** /api/file | getFileDetails
 [**getFileHistoryUsingGET**](FileControllerApi.md#getFileHistoryUsingGET) | **GET** /api/file/history | getFileHistory
+[**getGeneralFileStatusStatisticsUsingGET**](FileControllerApi.md#getGeneralFileStatusStatisticsUsingGET) | **GET** /api/file/file-statistics | getGeneralFileStatusStatistics
+[**getManagedFileDetailsUsingGET**](FileControllerApi.md#getManagedFileDetailsUsingGET) | **GET** /api/file/managed | getManagedFileDetails
 [**getObjectChainIdUsingGET**](FileControllerApi.md#getObjectChainIdUsingGET) | **GET** /api/file/object-chain | getObjectChainId
+[**getPdfPageSizesUsingPOST**](FileControllerApi.md#getPdfPageSizesUsingPOST) | **POST** /api/file/page-size | getPdfPageSizes
 [**getSignatureHistoryUsingGET**](FileControllerApi.md#getSignatureHistoryUsingGET) | **GET** /api/file/signature-history | getSignatureHistory
 [**getUndersignedFilesUsingGET**](FileControllerApi.md#getUndersignedFilesUsingGET) | **GET** /api/file/undersigned | getUndersignedFiles
+[**getUserFilesUsingGET**](FileControllerApi.md#getUserFilesUsingGET) | **GET** /api/file/files | getUserFiles
+[**getUserTemplatesUsingGET**](FileControllerApi.md#getUserTemplatesUsingGET) | **GET** /api/file/templates | getUserTemplates
+[**managedFileSignatoryProcessUsingPOST**](FileControllerApi.md#managedFileSignatoryProcessUsingPOST) | **POST** /api/file/managed/signatory | managedFileSignatoryProcess
+[**proveFileUsingGET**](FileControllerApi.md#proveFileUsingGET) | **GET** /api/file/prove | proveFile
 [**proveFileValidityUsingPOST**](FileControllerApi.md#proveFileValidityUsingPOST) | **POST** /api/file/proveit | proveFileValidity
+[**proveOutputFileUsingGET**](FileControllerApi.md#proveOutputFileUsingGET) | **GET** /api/file/prove/{fileId} | proveOutputFile
+[**updateFileSigningExpiryUsingGET**](FileControllerApi.md#updateFileSigningExpiryUsingGET) | **GET** /api/file/signing-expiry | updateFileSigningExpiry
 
 
 <a name="auditFileByHashUsingGET"></a>
@@ -45,7 +63,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **hash** | **String**| hash | [optional]
+ **hash** | **String**| hash |
 
 ### Return type
 
@@ -58,6 +76,141 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="createAnnotatedPdfOnSignatoryUsingPOST"></a>
+# **createAnnotatedPdfOnSignatoryUsingPOST**
+> List&lt;FileDetailsDTO&gt; createAnnotatedPdfOnSignatoryUsingPOST(data, file)
+
+createAnnotatedPdfOnSignatory
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String data = "data_example"; // String | data
+List<File> file = Arrays.asList(new File("/path/to/file")); // List<File> | file
+try {
+    List<FileDetailsDTO> result = apiInstance.createAnnotatedPdfOnSignatoryUsingPOST(data, file);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#createAnnotatedPdfOnSignatoryUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | **String**| data |
+ **file** | [**List&lt;File&gt;**](File.md)| file |
+
+### Return type
+
+[**List&lt;FileDetailsDTO&gt;**](FileDetailsDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="createAnnotatedPdfUsingPOST"></a>
+# **createAnnotatedPdfUsingPOST**
+> FileDTO createAnnotatedPdfUsingPOST(data, file)
+
+createAnnotatedPdf
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String data = "data_example"; // String | data
+List<File> file = Arrays.asList(new File("/path/to/file")); // List<File> | file
+try {
+    FileDTO result = apiInstance.createAnnotatedPdfUsingPOST(data, file);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#createAnnotatedPdfUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | **String**| data |
+ **file** | [**List&lt;File&gt;**](File.md)| file |
+
+### Return type
+
+[**FileDTO**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="createFileTemplateUsingPOST"></a>
+# **createFileTemplateUsingPOST**
+> FileDTO createFileTemplateUsingPOST(data, file)
+
+createFileTemplate
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String data = "data_example"; // String | data
+File file = new File("/path/to/file.txt"); // File | file
+try {
+    FileDTO result = apiInstance.createFileTemplateUsingPOST(data, file);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#createFileTemplateUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | **String**| data |
+ **file** | **File**| file |
+
+### Return type
+
+[**FileDTO**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: */*
 
 <a name="createFileUsingPOST"></a>
@@ -105,6 +258,135 @@ No authorization required
  - **Content-Type**: multipart/form-data
  - **Accept**: */*
 
+<a name="deleteFileUsingDELETE"></a>
+# **deleteFileUsingDELETE**
+> Object deleteFileUsingDELETE(id)
+
+deleteFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String id = "id_example"; // String | id
+try {
+    Object result = apiInstance.deleteFileUsingDELETE(id);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#deleteFileUsingDELETE");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| id |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="deleteTemplateUsingDELETE"></a>
+# **deleteTemplateUsingDELETE**
+> Object deleteTemplateUsingDELETE(id)
+
+deleteTemplate
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String id = "id_example"; // String | id
+try {
+    Object result = apiInstance.deleteTemplateUsingDELETE(id);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#deleteTemplateUsingDELETE");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| id |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="downloadManagedOutputFileUsingGET"></a>
+# **downloadManagedOutputFileUsingGET**
+> Resource downloadManagedOutputFileUsingGET(fileId)
+
+downloadManagedOutputFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String fileId = "fileId_example"; // String | fileId
+try {
+    Resource result = apiInstance.downloadManagedOutputFileUsingGET(fileId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#downloadManagedOutputFileUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileId** | **String**| fileId |
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
 <a name="downloadOutputFileUsingGET"></a>
 # **downloadOutputFileUsingGET**
 > Resource downloadOutputFileUsingGET(fileId)
@@ -148,6 +430,92 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="downloadOutputSignatoryFileUsingGET"></a>
+# **downloadOutputSignatoryFileUsingGET**
+> Resource downloadOutputSignatoryFileUsingGET(annotatedFileId)
+
+downloadOutputSignatoryFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String annotatedFileId = "annotatedFileId_example"; // String | annotatedFileId
+try {
+    Resource result = apiInstance.downloadOutputSignatoryFileUsingGET(annotatedFileId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#downloadOutputSignatoryFileUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **annotatedFileId** | **String**| annotatedFileId |
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="downloadOutputTemplateFileUsingGET"></a>
+# **downloadOutputTemplateFileUsingGET**
+> Resource downloadOutputTemplateFileUsingGET(templateId)
+
+downloadOutputTemplateFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String templateId = "templateId_example"; // String | templateId
+try {
+    Resource result = apiInstance.downloadOutputTemplateFileUsingGET(templateId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#downloadOutputTemplateFileUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **templateId** | **String**| templateId |
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
 <a name="fileSignatoryProcessUsingPOST"></a>
 # **fileSignatoryProcessUsingPOST**
 > List&lt;FileDetailsDTO&gt; fileSignatoryProcessUsingPOST(fileSignatoryDTO)
@@ -177,6 +545,49 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **fileSignatoryDTO** | [**FileSignatoryDTO**](FileSignatoryDTO.md)| fileSignatoryDTO |
+
+### Return type
+
+[**List&lt;FileDetailsDTO&gt;**](FileDetailsDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="fileSignatoryProcessUsingPOST1"></a>
+# **fileSignatoryProcessUsingPOST1**
+> List&lt;FileDetailsDTO&gt; fileSignatoryProcessUsingPOST1(fileVersionedSignatoryDTO)
+
+fileSignatoryProcess
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+FileVersionedSignatoryDTO fileVersionedSignatoryDTO = new FileVersionedSignatoryDTO(); // FileVersionedSignatoryDTO | fileVersionedSignatoryDTO
+try {
+    List<FileDetailsDTO> result = apiInstance.fileSignatoryProcessUsingPOST1(fileVersionedSignatoryDTO);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#fileSignatoryProcessUsingPOST1");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileVersionedSignatoryDTO** | [**FileVersionedSignatoryDTO**](FileVersionedSignatoryDTO.md)| fileVersionedSignatoryDTO |
 
 ### Return type
 
@@ -320,6 +731,88 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="getGeneralFileStatusStatisticsUsingGET"></a>
+# **getGeneralFileStatusStatisticsUsingGET**
+> FileStatisticsDTO getGeneralFileStatusStatisticsUsingGET()
+
+getGeneralFileStatusStatistics
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+try {
+    FileStatisticsDTO result = apiInstance.getGeneralFileStatusStatisticsUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#getGeneralFileStatusStatisticsUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FileStatisticsDTO**](FileStatisticsDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="getManagedFileDetailsUsingGET"></a>
+# **getManagedFileDetailsUsingGET**
+> FileDTO getManagedFileDetailsUsingGET(id)
+
+getManagedFileDetails
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String id = "id_example"; // String | id
+try {
+    FileDTO result = apiInstance.getManagedFileDetailsUsingGET(id);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#getManagedFileDetailsUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| id |
+
+### Return type
+
+[**FileDTO**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
 <a name="getObjectChainIdUsingGET"></a>
 # **getObjectChainIdUsingGET**
 > String getObjectChainIdUsingGET(hash)
@@ -363,9 +856,52 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="getPdfPageSizesUsingPOST"></a>
+# **getPdfPageSizesUsingPOST**
+> List&lt;PdfPageSizeDTO&gt; getPdfPageSizesUsingPOST(file)
+
+getPdfPageSizes
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+File file = new File("/path/to/file.txt"); // File | file
+try {
+    List<PdfPageSizeDTO> result = apiInstance.getPdfPageSizesUsingPOST(file);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#getPdfPageSizesUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **File**| file |
+
+### Return type
+
+[**List&lt;PdfPageSizeDTO&gt;**](PdfPageSizeDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: */*
+
 <a name="getSignatureHistoryUsingGET"></a>
 # **getSignatureHistoryUsingGET**
-> List&lt;FileDetailsDTO&gt; getSignatureHistoryUsingGET(isProcessed, fileTypes, title)
+> List&lt;FileDetailsDTO&gt; getSignatureHistoryUsingGET(fileTypes, isProcessed, title)
 
 getSignatureHistory
 
@@ -377,11 +913,11 @@ getSignatureHistory
 
 
 FileControllerApi apiInstance = new FileControllerApi();
+List<String> fileTypes = Arrays.asList("fileTypes_example"); // List<String> | fileTypes
 Boolean isProcessed = true; // Boolean | isProcessed
-String fileTypes = "fileTypes_example"; // String | fileTypes
 String title = "title_example"; // String | title
 try {
-    List<FileDetailsDTO> result = apiInstance.getSignatureHistoryUsingGET(isProcessed, fileTypes, title);
+    List<FileDetailsDTO> result = apiInstance.getSignatureHistoryUsingGET(fileTypes, isProcessed, title);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FileControllerApi#getSignatureHistoryUsingGET");
@@ -393,8 +929,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **fileTypes** | [**List&lt;String&gt;**](String.md)| fileTypes |
  **isProcessed** | **Boolean**| isProcessed |
- **fileTypes** | **String**| fileTypes | [optional]
  **title** | **String**| title | [optional]
 
 ### Return type
@@ -453,6 +989,168 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="getUserFilesUsingGET"></a>
+# **getUserFilesUsingGET**
+> List&lt;FileDTO&gt; getUserFilesUsingGET()
+
+getUserFiles
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+try {
+    List<FileDTO> result = apiInstance.getUserFilesUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#getUserFilesUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;FileDTO&gt;**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="getUserTemplatesUsingGET"></a>
+# **getUserTemplatesUsingGET**
+> List&lt;FileDTO&gt; getUserTemplatesUsingGET()
+
+getUserTemplates
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+try {
+    List<FileDTO> result = apiInstance.getUserTemplatesUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#getUserTemplatesUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;FileDTO&gt;**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="managedFileSignatoryProcessUsingPOST"></a>
+# **managedFileSignatoryProcessUsingPOST**
+> List&lt;FileDetailsDTO&gt; managedFileSignatoryProcessUsingPOST(data, file)
+
+managedFileSignatoryProcess
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String data = "data_example"; // String | data
+List<File> file = Arrays.asList(new File("/path/to/file")); // List<File> | file
+try {
+    List<FileDetailsDTO> result = apiInstance.managedFileSignatoryProcessUsingPOST(data, file);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#managedFileSignatoryProcessUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | **String**| data |
+ **file** | [**List&lt;File&gt;**](File.md)| file |
+
+### Return type
+
+[**List&lt;FileDetailsDTO&gt;**](FileDetailsDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="proveFileUsingGET"></a>
+# **proveFileUsingGET**
+> Boolean proveFileUsingGET()
+
+proveFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+try {
+    Boolean result = apiInstance.proveFileUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#proveFileUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
 <a name="proveFileValidityUsingPOST"></a>
 # **proveFileValidityUsingPOST**
 > Boolean proveFileValidityUsingPOST(fileRequest)
@@ -494,5 +1192,87 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="proveOutputFileUsingGET"></a>
+# **proveOutputFileUsingGET**
+> Resource proveOutputFileUsingGET(fileId)
+
+proveOutputFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String fileId = "fileId_example"; // String | fileId
+try {
+    Resource result = apiInstance.proveOutputFileUsingGET(fileId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#proveOutputFileUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileId** | **String**| fileId |
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="updateFileSigningExpiryUsingGET"></a>
+# **updateFileSigningExpiryUsingGET**
+> Boolean updateFileSigningExpiryUsingGET()
+
+updateFileSigningExpiry
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+try {
+    Boolean result = apiInstance.updateFileSigningExpiryUsingGET();
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#updateFileSigningExpiryUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: */*
 

@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **replaySignatureContent** | **String** |  |  [optional]
 **signedIdentityChain** | **String** |  |  [optional]
 **signedPublicKey** | **String** |  |  [optional]
+**timestamp** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 
 
 
