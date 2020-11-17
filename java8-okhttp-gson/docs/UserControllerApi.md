@@ -17,9 +17,9 @@ Method | HTTP request | Description
 [**getCurrentUserUsingGET**](UserControllerApi.md#getCurrentUserUsingGET) | **GET** /api/user/me | getCurrentUser
 [**getSignatoryListByIdUsingGET**](UserControllerApi.md#getSignatoryListByIdUsingGET) | **GET** /api/user/signatory-list-id | getSignatoryListById
 [**getSignatoryListsUsingGET**](UserControllerApi.md#getSignatoryListsUsingGET) | **GET** /api/user/signatory-list | getSignatoryLists
+[**getUserContactsByNameOrLastNameOrEmailUsingGET**](UserControllerApi.md#getUserContactsByNameOrLastNameOrEmailUsingGET) | **GET** /api/users | getUserContactsByNameOrLastNameOrEmail
 [**getUserIdentityChainIdUsingGET**](UserControllerApi.md#getUserIdentityChainIdUsingGET) | **GET** /api/user/chain | getUserIdentityChainId
 [**getUserProfileUsingGET**](UserControllerApi.md#getUserProfileUsingGET) | **GET** /api/users/{username} | getUserProfile
-[**getUsersByNameOrEmailOrStaffNumberUsingGET**](UserControllerApi.md#getUsersByNameOrEmailOrStaffNumberUsingGET) | **GET** /api/users | getUsersByNameOrEmailOrStaffNumber
 [**publicKeyVerificationUsingPOST**](UserControllerApi.md#publicKeyVerificationUsingPOST) | **POST** /api/user/publicKeyVerification | publicKeyVerification
 [**resetUserPasswordUsingPOST**](UserControllerApi.md#resetUserPasswordUsingPOST) | **POST** /api/user/reset-password | resetUserPassword
 [**testEmailUsingGET**](UserControllerApi.md#testEmailUsingGET) | **GET** /api/user/testEmail | testEmail
@@ -598,6 +598,49 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="getUserContactsByNameOrLastNameOrEmailUsingGET"></a>
+# **getUserContactsByNameOrLastNameOrEmailUsingGET**
+> List&lt;UserProfile&gt; getUserContactsByNameOrLastNameOrEmailUsingGET(search)
+
+getUserContactsByNameOrLastNameOrEmail
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+String search = "search_example"; // String | search
+try {
+    List<UserProfile> result = apiInstance.getUserContactsByNameOrLastNameOrEmailUsingGET(search);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#getUserContactsByNameOrLastNameOrEmailUsingGET");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **search** | **String**| search |
+
+### Return type
+
+[**List&lt;UserProfile&gt;**](UserProfile.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
 <a name="getUserIdentityChainIdUsingGET"></a>
 # **getUserIdentityChainIdUsingGET**
 > ModelApiResponse getUserIdentityChainIdUsingGET(userId)
@@ -674,49 +717,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UserProfile**](UserProfile.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-<a name="getUsersByNameOrEmailOrStaffNumberUsingGET"></a>
-# **getUsersByNameOrEmailOrStaffNumberUsingGET**
-> List&lt;UserProfile&gt; getUsersByNameOrEmailOrStaffNumberUsingGET(search)
-
-getUsersByNameOrEmailOrStaffNumber
-
-### Example
-```java
-// Import classes:
-//import com.sphereon.sdk.offblocks.handler.ApiException;
-//import com.sphereon.sdk.offblocks.api.UserControllerApi;
-
-
-UserControllerApi apiInstance = new UserControllerApi();
-String search = "search_example"; // String | search
-try {
-    List<UserProfile> result = apiInstance.getUsersByNameOrEmailOrStaffNumberUsingGET(search);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling UserControllerApi#getUsersByNameOrEmailOrStaffNumberUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **search** | **String**| search |
-
-### Return type
-
-[**List&lt;UserProfile&gt;**](UserProfile.md)
 
 ### Authorization
 

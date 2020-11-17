@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**createAnnotatedPdfUsingPOST**](FileControllerApi.md#createAnnotatedPdfUsingPOST) | **POST** /api/file/annotated-pdf | createAnnotatedPdf
 [**createFileTemplateUsingPOST**](FileControllerApi.md#createFileTemplateUsingPOST) | **POST** /api/file/create-template | createFileTemplate
 [**createFileUsingPOST**](FileControllerApi.md#createFileUsingPOST) | **POST** /api/file/create | createFile
+[**createSingleAnnotatedPdfUsingPOST**](FileControllerApi.md#createSingleAnnotatedPdfUsingPOST) | **POST** /api/file/stamp-pdf | createSingleAnnotatedPdf
 [**deleteFileUsingDELETE**](FileControllerApi.md#deleteFileUsingDELETE) | **DELETE** /api/file | deleteFile
 [**deleteTemplateUsingDELETE**](FileControllerApi.md#deleteTemplateUsingDELETE) | **DELETE** /api/file/template | deleteTemplate
 [**downloadManagedOutputFileUsingGET**](FileControllerApi.md#downloadManagedOutputFileUsingGET) | **GET** /api/file/managed/download/{fileId} | downloadManagedOutputFile
@@ -32,6 +33,7 @@ Method | HTTP request | Description
 [**proveFileUsingGET**](FileControllerApi.md#proveFileUsingGET) | **GET** /api/file/prove | proveFile
 [**proveFileValidityUsingPOST**](FileControllerApi.md#proveFileValidityUsingPOST) | **POST** /api/file/proveit | proveFileValidity
 [**proveOutputFileUsingGET**](FileControllerApi.md#proveOutputFileUsingGET) | **GET** /api/file/prove/{fileId} | proveOutputFile
+[**recoverRejectedFileUsingPOST**](FileControllerApi.md#recoverRejectedFileUsingPOST) | **POST** /api/file/sign-recovery | recoverRejectedFile
 [**updateFileSigningExpiryUsingGET**](FileControllerApi.md#updateFileSigningExpiryUsingGET) | **GET** /api/file/signing-expiry | updateFileSigningExpiry
 
 
@@ -248,6 +250,53 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FileDTO**](FileDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: */*
+
+<a name="createSingleAnnotatedPdfUsingPOST"></a>
+# **createSingleAnnotatedPdfUsingPOST**
+> Resource createSingleAnnotatedPdfUsingPOST(data, file, pdf)
+
+createSingleAnnotatedPdf
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+String data = "data_example"; // String | data
+List<File> file = Arrays.asList(new File("/path/to/file")); // List<File> | file
+File pdf = new File("/path/to/file.txt"); // File | pdf
+try {
+    Resource result = apiInstance.createSingleAnnotatedPdfUsingPOST(data, file, pdf);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#createSingleAnnotatedPdfUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **data** | **String**| data |
+ **file** | [**List&lt;File&gt;**](File.md)| file |
+ **pdf** | **File**| pdf |
+
+### Return type
+
+[**Resource**](Resource.md)
 
 ### Authorization
 
@@ -901,7 +950,7 @@ No authorization required
 
 <a name="getSignatureHistoryUsingGET"></a>
 # **getSignatureHistoryUsingGET**
-> List&lt;FileDetailsDTO&gt; getSignatureHistoryUsingGET(fileTypes, isProcessed, title)
+> List&lt;FileDetailsDTO&gt; getSignatureHistoryUsingGET(isProcessed, blockchainEventRole, fileTypes, inProgress, isCreator, title)
 
 getSignatureHistory
 
@@ -913,11 +962,14 @@ getSignatureHistory
 
 
 FileControllerApi apiInstance = new FileControllerApi();
-List<String> fileTypes = Arrays.asList("fileTypes_example"); // List<String> | fileTypes
 Boolean isProcessed = true; // Boolean | isProcessed
+String blockchainEventRole = "blockchainEventRole_example"; // String | blockchainEventRole
+String fileTypes = "fileTypes_example"; // String | fileTypes
+String inProgress = "inProgress_example"; // String | inProgress
+String isCreator = "isCreator_example"; // String | isCreator
 String title = "title_example"; // String | title
 try {
-    List<FileDetailsDTO> result = apiInstance.getSignatureHistoryUsingGET(fileTypes, isProcessed, title);
+    List<FileDetailsDTO> result = apiInstance.getSignatureHistoryUsingGET(isProcessed, blockchainEventRole, fileTypes, inProgress, isCreator, title);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FileControllerApi#getSignatureHistoryUsingGET");
@@ -929,8 +981,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileTypes** | [**List&lt;String&gt;**](String.md)| fileTypes |
  **isProcessed** | **Boolean**| isProcessed |
+ **blockchainEventRole** | **String**| blockchainEventRole | [optional]
+ **fileTypes** | **String**| fileTypes | [optional]
+ **inProgress** | **String**| inProgress | [optional]
+ **isCreator** | **String**| isCreator | [optional]
  **title** | **String**| title | [optional]
 
 ### Return type
@@ -1235,6 +1290,48 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="recoverRejectedFileUsingPOST"></a>
+# **recoverRejectedFileUsingPOST**
+> recoverRejectedFileUsingPOST(fileRequest)
+
+recoverRejectedFile
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.FileControllerApi;
+
+
+FileControllerApi apiInstance = new FileControllerApi();
+FileRequest fileRequest = new FileRequest(); // FileRequest | fileRequest
+try {
+    apiInstance.recoverRejectedFileUsingPOST(fileRequest);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FileControllerApi#recoverRejectedFileUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileRequest** | [**FileRequest**](FileRequest.md)| fileRequest |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 <a name="updateFileSigningExpiryUsingGET"></a>

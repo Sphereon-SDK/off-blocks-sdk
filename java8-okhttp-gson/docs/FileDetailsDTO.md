@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **hasExpired** | **Boolean** |  |  [optional]
 **hasReject** | **Boolean** |  |  [optional]
 **hash** | **String** |  |  [optional]
+**isCreatorSigner** | **Boolean** |  |  [optional]
 **isEvidence** | **Boolean** |  |  [optional]
 **isOrdered** | **Boolean** |  |  [optional]
 **isProcessed** | **Boolean** |  |  [optional]
