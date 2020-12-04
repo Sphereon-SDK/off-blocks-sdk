@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **deviceId** | **String** |  |  [optional]
 **email** | **String** |  |  [optional]
 **lastName** | **String** |  |  [optional]
+**managedUser** | **Boolean** |  |  [optional]
 **name** | **String** |  |  [optional]
 **password** | **String** |  |  [optional]
 **publicKey** | **String** |  |  [optional]

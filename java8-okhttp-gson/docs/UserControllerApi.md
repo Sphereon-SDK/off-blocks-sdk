@@ -6,6 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**checkEmailAvailabilityUsingGET**](UserControllerApi.md#checkEmailAvailabilityUsingGET) | **GET** /api/user/checkEmailAvailability | checkEmailAvailability
 [**checkUsernameAvailabilityUsingGET**](UserControllerApi.md#checkUsernameAvailabilityUsingGET) | **GET** /api/user/checkUsernameAvailability | checkUsernameAvailability
+[**confirmVerificationUsingPOST**](UserControllerApi.md#confirmVerificationUsingPOST) | **POST** /api/v1/users/verifications/{verificationId} | confirmVerification
+[**createManagedUserUsingPOST**](UserControllerApi.md#createManagedUserUsingPOST) | **POST** /api/v1/user/managed | createManagedUser
 [**createOrUpdateContactUsingPOST**](UserControllerApi.md#createOrUpdateContactUsingPOST) | **POST** /api/user/contact | createOrUpdateContact
 [**createSignatoryListsUsingPOST**](UserControllerApi.md#createSignatoryListsUsingPOST) | **POST** /api/user/signatory-list | createSignatoryLists
 [**deleteContactUsingDELETE**](UserControllerApi.md#deleteContactUsingDELETE) | **DELETE** /api/user/contact | deleteContact
@@ -17,12 +19,14 @@ Method | HTTP request | Description
 [**getCurrentUserUsingGET**](UserControllerApi.md#getCurrentUserUsingGET) | **GET** /api/user/me | getCurrentUser
 [**getSignatoryListByIdUsingGET**](UserControllerApi.md#getSignatoryListByIdUsingGET) | **GET** /api/user/signatory-list-id | getSignatoryListById
 [**getSignatoryListsUsingGET**](UserControllerApi.md#getSignatoryListsUsingGET) | **GET** /api/user/signatory-list | getSignatoryLists
-[**getUserContactsByNameOrLastNameOrEmailUsingGET**](UserControllerApi.md#getUserContactsByNameOrLastNameOrEmailUsingGET) | **GET** /api/users | getUserContactsByNameOrLastNameOrEmail
+[**getUserContactsByNameOrLastNameOrEmailUsingGET**](UserControllerApi.md#getUserContactsByNameOrLastNameOrEmailUsingGET) | **GET** /api/users/contacts | getUserContactsByNameOrLastNameOrEmail
 [**getUserIdentityChainIdUsingGET**](UserControllerApi.md#getUserIdentityChainIdUsingGET) | **GET** /api/user/chain | getUserIdentityChainId
 [**getUserProfileUsingGET**](UserControllerApi.md#getUserProfileUsingGET) | **GET** /api/users/{username} | getUserProfile
+[**initiatePasswordResetUsingPOST**](UserControllerApi.md#initiatePasswordResetUsingPOST) | **POST** /api/v1/users/{userId}/password/reset | initiatePasswordReset
+[**initiateVerificationUsingPOST**](UserControllerApi.md#initiateVerificationUsingPOST) | **POST** /api/v1/users/verifications | initiateVerification
+[**inviteUserUsingPOST**](UserControllerApi.md#inviteUserUsingPOST) | **POST** /api/v1/users/invitations | inviteUser
 [**publicKeyVerificationUsingPOST**](UserControllerApi.md#publicKeyVerificationUsingPOST) | **POST** /api/user/publicKeyVerification | publicKeyVerification
 [**resetUserPasswordUsingPOST**](UserControllerApi.md#resetUserPasswordUsingPOST) | **POST** /api/user/reset-password | resetUserPassword
-[**testEmailUsingGET**](UserControllerApi.md#testEmailUsingGET) | **GET** /api/user/testEmail | testEmail
 [**updateUserSettingsUsingPUT**](UserControllerApi.md#updateUserSettingsUsingPUT) | **PUT** /api/user/settings | updateUserSettings
 [**userActivationUsingPOST**](UserControllerApi.md#userActivationUsingPOST) | **POST** /api/user/activate | userActivation
 
@@ -111,6 +115,92 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="confirmVerificationUsingPOST"></a>
+# **confirmVerificationUsingPOST**
+> VerificationResponse confirmVerificationUsingPOST(verificationId)
+
+confirmVerification
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+String verificationId = "verificationId_example"; // String | verificationId
+try {
+    VerificationResponse result = apiInstance.confirmVerificationUsingPOST(verificationId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#confirmVerificationUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **verificationId** | **String**| verificationId |
+
+### Return type
+
+[**VerificationResponse**](VerificationResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="createManagedUserUsingPOST"></a>
+# **createManagedUserUsingPOST**
+> UserDTO createManagedUserUsingPOST(createManagedUserRequest)
+
+createManagedUser
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+CreateManagedUserRequest createManagedUserRequest = new CreateManagedUserRequest(); // CreateManagedUserRequest | createManagedUserRequest
+try {
+    UserDTO result = apiInstance.createManagedUserUsingPOST(createManagedUserRequest);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#createManagedUserUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createManagedUserRequest** | [**CreateManagedUserRequest**](CreateManagedUserRequest.md)| createManagedUserRequest |
+
+### Return type
+
+[**UserDTO**](UserDTO.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 <a name="createOrUpdateContactUsingPOST"></a>
@@ -451,7 +541,7 @@ No authorization required
 
 <a name="getCurrentUserUsingGET"></a>
 # **getCurrentUserUsingGET**
-> UserSummary getCurrentUserUsingGET(accountNonExpired, accountNonLocked, authorities0Authority, business, credentialsNonExpired, email, enabled, id, joinedAt, lastName, name, password, username)
+> UserDTO getCurrentUserUsingGET(accountNonExpired, accountNonLocked, authorities0Authority, credentialsNonExpired, email, enabled, id, lastName, name, password, username)
 
 getCurrentUser
 
@@ -466,18 +556,16 @@ UserControllerApi apiInstance = new UserControllerApi();
 Boolean accountNonExpired = true; // Boolean | 
 Boolean accountNonLocked = true; // Boolean | 
 String authorities0Authority = "authorities0Authority_example"; // String | 
-Boolean business = true; // Boolean | 
 Boolean credentialsNonExpired = true; // Boolean | 
 String email = "email_example"; // String | 
 Boolean enabled = true; // Boolean | 
 String id = "id_example"; // String | 
-OffsetDateTime joinedAt = new OffsetDateTime(); // OffsetDateTime | 
 String lastName = "lastName_example"; // String | 
 String name = "name_example"; // String | 
 String password = "password_example"; // String | 
 String username = "username_example"; // String | 
 try {
-    UserSummary result = apiInstance.getCurrentUserUsingGET(accountNonExpired, accountNonLocked, authorities0Authority, business, credentialsNonExpired, email, enabled, id, joinedAt, lastName, name, password, username);
+    UserDTO result = apiInstance.getCurrentUserUsingGET(accountNonExpired, accountNonLocked, authorities0Authority, credentialsNonExpired, email, enabled, id, lastName, name, password, username);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserControllerApi#getCurrentUserUsingGET");
@@ -492,12 +580,10 @@ Name | Type | Description  | Notes
  **accountNonExpired** | **Boolean**|  | [optional]
  **accountNonLocked** | **Boolean**|  | [optional]
  **authorities0Authority** | **String**|  | [optional]
- **business** | **Boolean**|  | [optional]
  **credentialsNonExpired** | **Boolean**|  | [optional]
  **email** | **String**|  | [optional]
  **enabled** | **Boolean**|  | [optional]
  **id** | **String**|  | [optional]
- **joinedAt** | **OffsetDateTime**|  | [optional]
  **lastName** | **String**|  | [optional]
  **name** | **String**|  | [optional]
  **password** | **String**|  | [optional]
@@ -505,7 +591,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UserSummary**](UserSummary.md)
+[**UserDTO**](UserDTO.md)
 
 ### Authorization
 
@@ -607,9 +693,17 @@ getUserContactsByNameOrLastNameOrEmail
 ### Example
 ```java
 // Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiClient;
 //import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.handler.Configuration;
+//import com.sphereon.sdk.offblocks.handler.auth.*;
 //import com.sphereon.sdk.offblocks.api.UserControllerApi;
 
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+// Configure OAuth2 access token for authorization: oauth2schema
+OAuth oauth2schema = (OAuth) defaultClient.getAuthentication("oauth2schema");
+oauth2schema.setAccessToken("YOUR ACCESS TOKEN");
 
 UserControllerApi apiInstance = new UserControllerApi();
 String search = "search_example"; // String | search
@@ -634,7 +728,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2schema](../README.md#oauth2schema)
 
 ### HTTP request headers
 
@@ -727,6 +821,135 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="initiatePasswordResetUsingPOST"></a>
+# **initiatePasswordResetUsingPOST**
+> ModelApiResponse initiatePasswordResetUsingPOST(userId)
+
+initiatePasswordReset
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+String userId = "userId_example"; // String | userId
+try {
+    ModelApiResponse result = apiInstance.initiatePasswordResetUsingPOST(userId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#initiatePasswordResetUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userId** | **String**| userId |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="initiateVerificationUsingPOST"></a>
+# **initiateVerificationUsingPOST**
+> VerificationResponse initiateVerificationUsingPOST(request)
+
+initiateVerification
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+VerificationInitiateRequest request = new VerificationInitiateRequest(); // VerificationInitiateRequest | request
+try {
+    VerificationResponse result = apiInstance.initiateVerificationUsingPOST(request);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#initiateVerificationUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**VerificationInitiateRequest**](VerificationInitiateRequest.md)| request |
+
+### Return type
+
+[**VerificationResponse**](VerificationResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+<a name="inviteUserUsingPOST"></a>
+# **inviteUserUsingPOST**
+> ModelApiResponse inviteUserUsingPOST(userInvitationRequest)
+
+inviteUser
+
+### Example
+```java
+// Import classes:
+//import com.sphereon.sdk.offblocks.handler.ApiException;
+//import com.sphereon.sdk.offblocks.api.UserControllerApi;
+
+
+UserControllerApi apiInstance = new UserControllerApi();
+UserInvitationRequest userInvitationRequest = new UserInvitationRequest(); // UserInvitationRequest | userInvitationRequest
+try {
+    ModelApiResponse result = apiInstance.inviteUserUsingPOST(userInvitationRequest);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling UserControllerApi#inviteUserUsingPOST");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userInvitationRequest** | [**UserInvitationRequest**](UserInvitationRequest.md)| userInvitationRequest |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
 <a name="publicKeyVerificationUsingPOST"></a>
 # **publicKeyVerificationUsingPOST**
 > UserIdentityAvailability publicKeyVerificationUsingPOST(userActivationRequest)
@@ -772,7 +995,7 @@ No authorization required
 
 <a name="resetUserPasswordUsingPOST"></a>
 # **resetUserPasswordUsingPOST**
-> Boolean resetUserPasswordUsingPOST(email)
+> Boolean resetUserPasswordUsingPOST(password)
 
 resetUserPassword
 
@@ -784,9 +1007,9 @@ resetUserPassword
 
 
 UserControllerApi apiInstance = new UserControllerApi();
-String email = "email_example"; // String | email
+String password = "password_example"; // String | password
 try {
-    Boolean result = apiInstance.resetUserPasswordUsingPOST(email);
+    Boolean result = apiInstance.resetUserPasswordUsingPOST(password);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserControllerApi#resetUserPasswordUsingPOST");
@@ -798,7 +1021,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **String**| email |
+ **password** | **String**| password |
 
 ### Return type
 
@@ -811,45 +1034,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
-
-<a name="testEmailUsingGET"></a>
-# **testEmailUsingGET**
-> Boolean testEmailUsingGET()
-
-testEmail
-
-### Example
-```java
-// Import classes:
-//import com.sphereon.sdk.offblocks.handler.ApiException;
-//import com.sphereon.sdk.offblocks.api.UserControllerApi;
-
-
-UserControllerApi apiInstance = new UserControllerApi();
-try {
-    Boolean result = apiInstance.testEmailUsingGET();
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling UserControllerApi#testEmailUsingGET");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**Boolean**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: */*
 
 <a name="updateUserSettingsUsingPUT"></a>
