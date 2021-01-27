@@ -4,7 +4,7 @@
 	<groupId>com.sphereon.sdk</groupId>
 	<artifactId>offblocks-sdk-generator</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>0.9</version>
 	<name>Offblocks API SDK Generator</name>
 
 	<properties>
@@ -12,10 +12,10 @@
 		<sdk-package>com.sphereon.sdk.offblocks</sdk-package>
 		<sdk-package-javascript>SphereonSDKOffblocks</sdk-package-javascript>
 		<sdk-package-csharp>Sphereon.SDK.offblocks</sdk-package-csharp>
-		<sdk-package-version>1.0</sdk-package-version>
-		<sdk-package-version_java>v1_0</sdk-package-version_java>
+		<sdk-package-version>0.9</sdk-package-version>
+		<sdk-package-version_java>v0.9</sdk-package-version_java>
 
-		<swagger-coden-maven-plugin.version>2.2.3</swagger-coden-maven-plugin.version>
+		<swagger-coden-maven-plugin.version>3.0.24</swagger-coden-maven-plugin.version>
 		<swagger-coden-verbose>false</swagger-coden-verbose>
 		<project.encoding>UTF-8</project.encoding>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -44,7 +44,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -53,7 +53,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>html2</language>
 									<configOptions>
 										<dateLibrary>java8</dateLibrary>
@@ -80,7 +80,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -89,12 +89,12 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>java</language>
-									<templateDirectory>
+<!--									<templateDirectory>
 										${basedir}/src/main/mustacheTemplates/okhttp-gson
 									</templateDirectory>
-									<configOptions>
+-->									<configOptions>
 										<dateLibrary>java8</dateLibrary>
 									</configOptions>
 									<library>okhttp-gson</library>
@@ -120,7 +120,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -129,7 +129,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>java</language>
 									<templateDirectory>
 										${basedir}/src/main/mustacheTemplates/okhttp-gson
@@ -160,7 +160,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -169,7 +169,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>java</language>
 									<configOptions>
 										<dateLibrary>java8</dateLibrary>
@@ -198,7 +198,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -207,7 +207,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>java</language>
 									<configOptions>
 										<dateLibrary>java8</dateLibrary>
@@ -235,7 +235,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -244,7 +244,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>javascript</language>
 									<configOptions>
 										<dateLibrary>java8</dateLibrary>
@@ -271,7 +271,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -280,7 +280,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>typescript-angular2</language>
 									<configOptions>
 										<dateLibrary>java8</dateLibrary>
@@ -307,7 +307,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 
@@ -318,7 +318,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>csharp</language>
 									<templateDirectory>
 										${basedir}/src/main/mustacheTemplates/csharp
@@ -354,7 +354,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.swagger</groupId>
+						<groupId>io.swagger.codegen.v3</groupId>
 						<artifactId>swagger-codegen-maven-plugin</artifactId>
 						<version>${swagger-coden-maven-plugin.version}</version>
 						<executions>
@@ -363,7 +363,7 @@
 									<goal>generate</goal>
 								</goals>
 								<configuration>
-									<inputSpec>swagger.sdk.json</inputSpec>
+									<inputSpec>api.yaml</inputSpec>
 									<language>csharp</language>
 									<configOptions>
 										<packageCompany>${company-name}</packageCompany>

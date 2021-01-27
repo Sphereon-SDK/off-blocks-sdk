@@ -1,0 +1,2575 @@
+openapi: 3.0.0
+info:
+  version: '0.9.0'
+  title: Off-Blocks REST API
+tags:
+  - name: Groups
+    description: Manage groups
+  - name: Users
+    description: Manage users
+  - name: Onboarding
+    description: Onboard and verify users
+  - name: Devices
+    description: Manage devices
+  - name: Identities
+    description: Manage Identities (DIDs)
+  - name: UserSessions
+    description: Manage User Sessions
+  - name: Signatures
+    description: Manage signatures
+  - name: Authentication
+    description: Manage authentication
+  - name: Products
+    description: Manage products
+  - name: Customers
+    description: Manage customers
+  - name: Payments
+    description: Manage payments
+servers:
+  - url: https://offblocks-niels.eu.ngrok.io/api/v1
+    description: Development Environment
+paths:
+  '/groups':
+    post:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Add a group
+      operationId: addGroup
+      requestBody:
+        $ref: '#/components/requestBodies/Group'
+      responses:
+        '200':
+          description: Group added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+              example:
+                id: '5ac96e2a-06f0-11eb-adc1-0242ac120002'
+                name: 'company'
+                users: []
+                createdAt: '2020-07-21T17:32:28Z'
+                lastUpdatedAt: '2020-07-21T17:32:28Z'
+                type: 'ORGANIZATION'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    get:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Get groups
+      operationId: getGroups
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/ids'
+        - $ref: '#/components/parameters/names'
+        - $ref: '#/components/parameters/types'
+        - $ref: '#/components/parameters/subscriptionNames'
+        - $ref: '#/components/parameters/userIdFilter'
+      responses:
+        '206':
+          description: Groups fetched successfully
+          headers:
+            Content-Range:
+              description: 'content-range includes groups, a resultset range and a total. format: groups start-end/total. example: groups 0-9/25'
+              schema:
+                type: string
+              example: 'groups 0-9/25'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupResponse'
+        '401':
+          description: Unauthorized
+        '416':
+          description: Range Not Satisfiable
+
+  '/groups/{groupId}':
+    get:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Get group by ID
+      operationId: getGroupById
+      parameters:
+        - $ref: '#/components/parameters/groupId'
+      responses:
+        '200':
+          description: Group fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Group does not exist
+    put:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Update a group by ID
+      operationId: updateGroupById
+      parameters:
+        - $ref: '#/components/parameters/groupId'
+      requestBody:
+        $ref: '#/components/requestBodies/Group'
+      responses:
+        '200':
+          description: Group updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Group does not exist
+    delete:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Deletes a group by ID
+      operationId: deleteGroupById
+      parameters:
+        - $ref: '#/components/parameters/groupId'
+      responses:
+        '200':
+          description: Group deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Group does not exist
+        '409':
+          description: Conflict in request, such as group still containing users whilst trying to delete.
+
+  '/groups/{groupId}/users':
+    post:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Add users to a group
+      operationId: addUsersToGroup
+      parameters:
+        - $ref: '#/components/parameters/groupId'
+      requestBody:
+        $ref: '#/components/requestBodies/GroupUsers'
+      responses:
+        '201':
+          description: Users added to group successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsersResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Group and or user does not exist
+
+  '/groups/{groupId}/users/{userId}':
+    delete:
+      tags:
+        - Groups
+      security:
+        - openId: [ ]
+      summary: Remove a user from a group
+      operationId: removeUserFromGroup
+      parameters:
+        - $ref: '#/components/parameters/groupId'
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User removed from group successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsersResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Group and or user does not exist
+
+  '/users':
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      operationId: addUser
+      requestBody:
+        $ref: '#/components/requestBodies/AddUser'
+      responses:
+        '201':
+          description: User added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddUserResponse'
+              example:
+                id: 'af6ba444-06ef-11eb-adc1-0242ac120002'
+                groups: []
+                createdAt: '2020-07-21T17:32:28Z'
+                lastUpdatedAt: '2020-07-21T17:32:28Z'
+                initials: 'A.B.C'
+                firstName: 'firstname'
+                middleName: 'middlename'
+                lastName: 'lastname'
+                emailAddress: 'email@email.com'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    get:
+      tags:
+        - Users
+      security:
+        - openId: [ ]
+      summary: Get users
+      operationId: getUsers
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/ids'
+        - $ref: '#/components/parameters/firstNames'
+        - $ref: '#/components/parameters/lastNames'
+        - $ref: '#/components/parameters/groupIdFilter'
+      responses:
+        '206':
+          description: Users fetched successfully
+          headers:
+            Content-Range:
+              description: 'content-range includes users, a resultset range and a total. format: users start-end/total. example: users 0-9/25'
+              schema:
+                type: string
+              example: 'users 0-9/25'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '416':
+          description: Range Not Satisfiable
+
+  '/users/{userId}':
+    get:
+      tags:
+        - Users
+      security:
+        - openId: [ ]
+      summary: Get user by ID
+      operationId: getUserById
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    put:
+      tags:
+        - Users
+      security:
+        - openId: [ ]
+      summary: Update a user by ID
+      operationId: updateUserById
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - Users
+      security:
+        - openId: [ ]
+      summary: Delete a user by ID
+      operationId: deleteUserById
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+  '/users/{userId}/sessions':
+    get:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Get user sessions by user ID
+      operationId: getUserSessionsByUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionsResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Delete all user sessions by user ID
+      operationId: deleteUserSessionsByUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User sessions deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+  '/users/{userId}/sessions/{sessionId}':
+    get:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Get user sessions by user ID and session Id
+      operationId: getUserSessionByUserIdAndSessionId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: User session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Delete a user session by ID
+      operationId: deleteUserSessionByUserIdAndSessionId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: User session deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+
+
+  '/users/{userId}/dids':
+    get:
+      tags:
+        - Identities
+      security:
+        - openId: [ ]
+      summary: Get Identities associated with a user
+      operationId: getDidDocumentsByUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User fetched succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+  '/users/{userId}/dids/{did}':
+    get:
+      tags:
+        - Identities
+      security:
+        - openId: [ ]
+      summary: Get DID document
+      operationId: getDidDocumentByIdAndUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/did'
+      responses:
+        '200':
+          description: DID fetched succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+  '/users/{userId}/devices':
+    get:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Get User associated devices
+      operationId: getDevicesByUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User associated devices fetched succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicesDidKeysInfoResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    post:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Create a User associated device
+      operationId: createDeviceForUserId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/DeviceDidKeyRequest'
+      responses:
+        200:
+          description: Created a user associated device by Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+  '/users/{userId}/devices/{deviceId}':
+    get:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Get user associated device by Id or unique device Id
+      operationId: getDeviceByUserIdAndDeviceId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Fetch user associated device by Id or unique device Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Deletes an associated device by Id from the user (does not delete the device from other users)
+      operationId: deleteDeviceByUserIdAndDeviceId
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: User associated device by Id deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+  '/devices/{deviceId}':
+    get:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Get a device by Id or unique device Id
+      operationId: getDeviceById
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Device by Id or unique device Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - Devices
+      security:
+        - openId: [ ]
+      summary: Deletes a device (for all users)
+      operationId: deleteDeviceById
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: Deleted device by Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+  '/devices/{deviceId}/sessions':
+    get:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Get user sessions by device ID
+      operationId: getUserSessionsByDeviceId
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: User sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionsResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+    delete:
+      tags:
+        - UserSessions
+      security:
+        - openId: [ ]
+      summary: Delete all user sessions by device ID
+      operationId: deleteUserSessionsByDeviceId
+      parameters:
+        - $ref: '#/components/parameters/deviceId'
+      responses:
+        '200':
+          description: User sessions deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User does not exist
+
+#  '/onboarding/devices':
+#    post:
+#      tags:
+#        - Onboarding
+#      summary: Initiate a new device onboarding verification
+#      operationId: initiateDeviceOnboarding
+#      security:
+#        - openid: [ ]
+#      requestBody:
+#        $ref: '#/components/requestBodies/DeviceOnboardingInitiationRequest'
+#      responses:
+#        200:
+#          description: The verification initiation response
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/DeviceOnboardingInitiationResponse'
+#        '400':
+#          description: Bad request
+#        '404':
+#          description: Verification does not exist
+#
+#  '/onboarding/devices/{token}':
+#    post:
+#      tags:
+#        - Onboarding
+#      summary: Complete a device onboarding
+#      operationId: completeDeviceOnboarding
+#      parameters:
+#        - $ref: '#/components/parameters/token'
+#      requestBody:
+#        $ref: '#/components/requestBodies/DeviceOnboardingCompletionRequest'
+#      responses:
+#        200:
+#          description: The verification completion response
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/DeviceOnboardingCompletionResponse'
+#        '400':
+#          description: Bad request
+#        '404':
+#          description: Verification does not exist
+
+  '/onboarding/verifications':
+    post:
+      tags:
+        - Onboarding
+      summary: Initiate a new onboarding verification
+      operationId: initiateOnboardingVerification
+      security:
+        - openId: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/VerificationInitiationRequest'
+      responses:
+        200:
+          description: The verification initiation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationInitiationResponse'
+        '400':
+          description: Bad request
+        '404':
+          description: Verification does not exist
+
+  '/onboarding/verifications/{token}':
+    post:
+      tags:
+        - Onboarding
+      summary: Complete a new onboarding verification
+      operationId: completeOnboardingVerification
+      parameters:
+        - $ref: '#/components/parameters/token'
+      requestBody:
+        $ref: '#/components/requestBodies/VerificationCompletionRequest'
+      responses:
+        200:
+          description: The verification completion response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationCompletionResponse'
+        '400':
+          description: Bad request
+        '404':
+          description: Verification does not exist
+  #    delete:
+  #      tags:
+  #        - Onboarding
+  #      summary: Delete an existing onboarding verification initiation
+  #      operationId: deleteOnboardingVerification
+  #      parameters:
+  #        - $ref: '#/components/parameters/token'
+  #      responses:
+  #        200:
+  #          description: The verification inition has been removed
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/VerificationInitiationResponse'
+  #        '400':
+  #          description: Bad request
+  #        '404':
+  #          description: Verification does not exist
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get products
+      operationId: getProducts
+      parameters:
+        - $ref: '#/components/parameters/limit'
+      security:
+        - openId: []
+      responses:
+        '200':
+          description: Products fetched succesfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+
+  '/products/{productId}':
+    get:
+      tags:
+        - Products
+      summary: Get product by ID
+      operationId: getProductById
+      security:
+        - openId: [ ]
+      parameters:
+        - $ref: '#/components/parameters/productId'
+      responses:
+        '200':
+          description: Product fetched succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Product does not exist
+
+  '/signatures/request':
+    post:
+      deprecated: true
+      tags:
+        - Signatures
+      security:
+        - openId: [ ]
+      operationId: requestSignature
+      requestBody:
+        $ref: '#/components/requestBodies/RequestSignature'
+      responses:
+        '201':
+          description: request created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestSignatureResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      callbacks:
+        # the name `onEvent` is a convenience locator
+        onEvent:
+          # when data is sent, it will be sent to the `callbackUrl` provided
+          '{$request.body#/callback.url}':
+            post:
+              requestBody:
+                $ref: '#/components/requestBodies/SignCallbackRequestPost'
+              responses:
+                '202':
+                  description: |
+                    Your server implementation should return this HTTP status code
+                    if the data was received successfully
+                '204':
+                  description: |
+                    Your server should return this HTTP status code if no longer interested
+                    in further updates
+
+  #  '/auth/signup':
+  #    post:
+  #      deprecated: true
+  #      tags:
+  #        - Authentication
+  #      operationId: registerUser
+  #      requestBody:
+  #        $ref: '#/components/requestBodies/signup'
+  #      responses:
+  #        '201':
+  #          description: signed up succesfully
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/signupResponse'
+  #        '400':
+  #          description: Bad request
+  #        '409':
+  #          description: Email address already in use
+  #
+  #  '/auth/signin':
+  #    post:
+  #      deprecated: true
+  #      tags:
+  #        - Authentication
+  #      operationId: authenticateUser
+  #      requestBody:
+  #        $ref: '#/components/requestBodies/signin'
+  #      responses:
+  #        '201':
+  #          description: signed in succesfully
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/signupResponse'
+  #        '400':
+  #          description: Bad request
+
+  /customers:
+    post:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        $ref: '#/components/requestBodies/Customer'
+      responses:
+        '201':
+          description: Customer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '409':
+          description: User already has an associated customerId
+
+  '/customers/{customerId}':
+    get:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Get customer by ID
+      operationId: getCustomerById
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          description: Customer fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  '/payments/{customerId}/checkout':
+    post:
+      tags:
+        - Payments
+      security:
+        - openId: [ ]
+      summary: Create a customer checkout session
+      operationId: createCheckoutSession
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      requestBody:
+        $ref: '#/components/requestBodies/CheckoutSession'
+      responses:
+        '201':
+          description: Checkout session created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSessionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  '/customers/{customerId}/subscriptions':
+    post:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Create a subscription
+      operationId: createSubscription
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      requestBody:
+        $ref: '#/components/requestBodies/Subscription'
+      responses:
+        '201':
+          description: Subscriptioncreated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    get:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Get subscriptions
+      operationId: getSubscriptions
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          description: Customer fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriptionResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  '/customers/{customerId}/subscriptions/{subscriptionId}':
+    put:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Update a subscription by ID
+      operationId: updateSubscriptionById
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+        - $ref: '#/components/parameters/subscriptionId'
+      requestBody:
+        $ref: '#/components/requestBodies/Subscription'
+      responses:
+        '200':
+          description: Subscription updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  '/customers/{customerId}/subscriptions/{subscriptionId}/product/proposal/{priceId}':
+    get:
+      tags:
+        - Customers
+      security:
+        - openId: [ ]
+      summary: Get upcoming invoice for subscription
+      operationId: getUpcomingInvoice
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+        - $ref: '#/components/parameters/subscriptionId'
+        - $ref: '#/components/parameters/priceId'
+      responses:
+        '200':
+          description: Invoice fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://keycloak-niels.eu.ngrok.io/auth/realms/offblocks-dev-default/.well-known/openid-configuration
+  schemas:
+    Group:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          example: 'company'
+        type:
+          $ref: '#/components/schemas/GroupType'
+
+    GroupType:
+      type: string
+      enum:
+        - ORGANIZATION
+        - CONSUMER
+      example: 'ORGANIZATION'
+
+    GroupUsers:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/UserToGroup'
+
+    GroupUsersResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/UserResponse'
+
+    GroupResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: '5ac96e2a-06f0-11eb-adc1-0242ac120002'
+            name:
+              type: string
+              example: 'company'
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserResponse'
+            subscription:
+              $ref: '#/components/schemas/SubscriptionResponse'
+            createdAt:
+              type: string
+              format: date-time
+              example: '2020-07-21T17:32:28Z'
+            updatedAt:
+              type: string
+              format: date-time
+              example: '2020-07-21T18:32:28Z'
+        - $ref: '#/components/schemas/Group'
+
+    UserToGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'af6ba444-06ef-11eb-adc1-0242ac120002'
+
+    AddUser:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        password:
+          type: string
+          format: password
+        verificationStatus:
+          $ref: '#/components/schemas/UserVerificationStatus'
+        verificationInitiation:
+          $ref: '#/components/schemas/AddUserVerificationInitiation'
+
+    AddUserVerificationInitiation:
+      allOf:
+        - type: object
+          required:
+            - initiationMode
+          properties:
+            initiationMode:
+              type: string
+              enum:
+                - USE_EXISTING_INVITATION
+                - START_NEW_INVITATION
+                - MEMBERSHIP_ONLY
+            existingInviteToken:
+              type: string
+              description: 'An existing invite Token, to be used when mode is "USE_EXISTING_INVITATION" together with mode and optional secret'
+        - $ref: '#/components/schemas/VerificationInitiation'
+
+    InvitationSettings:
+      type: object
+      required:
+        - verificationMethod
+      properties:
+        verificationMethod:
+          $ref: '#/components/schemas/VerificationMethod'
+        secret:
+          type: string
+          example: 3456
+
+    User:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - emailAddress
+        #        - signMethod
+        - type
+      properties:
+        #        type:
+        #          $ref: '#/components/schemas/UserType'
+        #        signMethod:
+        #          $ref: '#/components/schemas/signMethod'
+        initials:
+          type: string
+          example: 'A .B. C.'
+        firstName:
+          type: string
+          example: 'Bob'
+        middleName:
+          type: string
+          example: 'the'
+        lastName:
+          type: string
+          example: 'Builder'
+        emailAddress:
+          type: string
+          example: 'example@email.com'
+        jobTitle:
+          type: string
+          example: 'CEO'
+        staffNumber:
+          type: string
+          example: 'A20301'
+
+
+    AddUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/UserResponse'
+        - type: object
+          properties:
+            verificationInitation:
+              $ref: '#/components/schemas/VerificationInitiationResponse'
+
+
+    SimpleUserResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: 'af6ba444-06ef-11eb-adc1-0242ac120002'
+              readOnly: true
+        - $ref: '#/components/schemas/User'
+
+    UserResponse:
+      allOf:
+        - type: object
+          properties:
+            realm:
+              $ref: '#/components/schemas/Realm'
+            roles:
+              type: array
+              items:
+                $ref: '#/components/schemas/Role'
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/GroupResponse'
+            verificationStatus:
+              $ref: '#/components/schemas/UserVerificationStatus'
+            createdAt:
+              type: string
+              format: date-time
+              example: '2020-07-21T17:32:28Z'
+            updatedAt:
+              type: string
+              format: date-time
+              example: '2020-07-21T18:32:28Z'
+        - $ref: '#/components/schemas/SimpleUserResponse'
+
+    UserSessionResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        userName:
+          type: string
+        id:
+          type: string
+        ipAddress:
+          type: string
+        start:
+          type: string
+          format: date-time
+        lastAccess:
+          type: string
+          format: date-time
+        clients:
+          $ref: '#/components/schemas/Client'
+        realm:
+          $ref: '#/components/schemas/Realm'
+    UserSessionsResponse:
+      type: object
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionResponse'
+    Client:
+      properties:
+        clientId:
+          type: string
+
+    VerificationInitiation:
+      type: object
+      required:
+        - emailAddress
+        - verificationMethod
+        - onboardingType
+        - notification
+      properties:
+        emailAddress:
+          type: string
+          example: 'bob@example.com'
+        onboardingType:
+          $ref: '#/components/schemas/OnboardingType'
+        notification:
+          $ref: '#/components/schemas/OnboardingNotification'
+        verificationMethod:
+          $ref: '#/components/schemas/VerificationMethod'
+        secret:
+          type: string
+          description: 'Optional secret that can be used in combination with verification method "SECRET". If not supplied a 6-digit secret will be generated'
+        existingOrganizationId:
+          type: string
+          description: 'In case of type "EXISTING_ORGANIZATION" an existing organization id, in case of type "NEW_ORGANIZATION" leave empty'
+        organizationName:
+          type: string
+          description: 'In case of type "EXISTING_ORGANIZATION" an existing organization name, in case of type "NEW_ORGANIZATION" supply an organization name'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+
+    DeviceOnboardingInitiation:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DeviceDidKeyInfoRequest'
+      required:
+        - emailAddress
+        - uniqueDeviceId
+      properties:
+        emailAddress:
+          type: string
+          example: 'bob@example.com'
+        notification:
+          $ref: '#/components/schemas/OnboardingNotification'
+        verificationMethod:
+          $ref: '#/components/schemas/VerificationMethod'
+        secret:
+          type: string
+          description: 'Optional secret that can be used in combination with verification method "SECRET". If not supplied a 6-digit secret will be generated'
+
+
+    Role:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/RoleName'
+        type:
+          $ref: '#/components/schemas/RoleType'
+
+    RoleType:
+      type: string
+      enum:
+        - REALM
+        - CLIENT
+
+    RoleName:
+      type: string
+      enum:
+        - USER
+        - ADMIN
+        - SUPER_ADMIN
+        - EXTERNAL_SIGNER
+
+    VerificationInitiationResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/VerificationInitiation'
+      required:
+        - emailAddress
+        - verificationMethod
+        - onboardingType
+        - notification
+        - token
+        - status
+      properties:
+        groupName:
+          type: string
+          description: 'The existing group name the user will be a member of'
+        token:
+          type: string
+          description: 'Token to use for both Link based registrations as well as pin based registrations'
+        userAvailibility:
+          $ref: '#/components/schemas/UserAvailability'
+        initiator:
+          $ref: '#/components/schemas/SimpleUserResponse'
+        #          description: 'The user that initiated the invitation/verification. Can be null if self initiated and the account does not exist yet.'
+        status:
+          $ref: '#/components/schemas/VerificationResponseStatus'
+
+    DeviceOnboardingInitiationResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DeviceOnboardingInitiation'
+      required:
+        - emailAddress
+        - uniqueDeviceId
+        - token
+        - status
+      properties:
+        token:
+          type: string
+          description: 'Token to use for both Link based registrations as well as pin based registrations'
+        status:
+          $ref: '#/components/schemas/DeviceVerificationResponseStatus'
+
+    DeviceVerificationResponseStatus:
+      type: string
+      enum:
+        - VERIFIED
+        - VERIFICATION_TOKEN_EXPIRED
+        - VERIFICATION_INITIATED
+        - VERIFICATION_INVALID
+      example: 'VERIFICATION_INITIATED'
+
+
+    VerificationCompletion:
+      type: object
+      required:
+        - accountType
+        - emailAddress
+      properties:
+        emailAddress:
+          type: string
+          description: 'The e-mail address associated with this onboarding request'
+        secret:
+          type: string
+          description: 'Optional secret that has to be used in combination with verification initiation method "SECRET".'
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+        organizationName:
+          type: string
+          description: 'In case of NEW_ORGANIZATION this allows the user to supply the organization name last minute'
+        notification:
+          $ref: '#/components/schemas/OnboardingNotification'
+        device:
+          $ref: '#/components/schemas/DeviceDidKeyInfoRequest'
+    # Future existing did key registration could be integrated here
+
+    DeviceOnboardingCompletion:
+      type: object
+      required:
+        - token
+        - emailAddress
+      properties:
+        emailAddress:
+          type: string
+          description: 'The e-mail address associated with this onboarding request'
+        token:
+          type: string
+          description: 'Token to use for both Link based registrations as well as pin based registrations'
+        secret:
+          type: string
+          description: 'Optional secret that has to be used in combination with verification initiation method "SECRET".'
+        notification:
+          $ref: '#/components/schemas/OnboardingNotification'
+
+    DeviceOnboardingCompletionResponse:
+      type: object
+      required:
+        - device
+        - status
+        - user
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+        status:
+          $ref: '#/components/schemas/VerificationResponseStatus'
+        user:
+          $ref: '#/components/schemas/UserResponse'
+
+    VerificationCompletionResponse:
+      type: object
+      required:
+        - verification
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+        verification:
+          $ref: '#/components/schemas/VerificationCompletionDetails'
+        user:
+          $ref: '#/components/schemas/UserResponse'
+
+    VerificationCompletionDetails:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/VerificationInitiationResponse'
+      properties:
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+
+    UserVerificationStatus:
+      type: string
+      enum:
+        - VERIFIED
+        - UNVERIFIED
+      example: 'VERIFIED'
+
+    VerificationResponseStatus:
+      type: string
+      enum:
+        - VERIFIED
+        - VERIFICATION_TOKEN_EXPIRED
+        - VERIFICATION_INITIATED
+        - VERIFICATION_INVALID
+      example: 'VERIFICATION_INITIATED'
+
+    UserAvailability:
+      type: string
+      enum:
+        - EXISTING
+        - NON_EXISTING
+      example: 'EXISTING'
+
+    OnboardingType:
+      type: string
+      enum:
+        - NEW_CUSTOMER
+        - EXISTING_CUSTOMER
+      example: 'EXISTING_CUSTOMER'
+
+    # Although currently the same values as GroupType this will probably deviate in the future hence a separate enum
+    AccountType:
+      type: string
+      enum:
+        - ORGANIZATION
+        - CONSUMER
+      example: 'ORGANIZATION'
+
+    OnboardingNotification:
+      type: string
+      enum:
+        - NONE
+        - EMAIL
+      example: 'EMAIL'
+
+    VerificationMethod:
+      type: string
+      enum:
+        - LINK
+        - SECRET
+      example: 'SECRET'
+
+    KeyManagementType:
+      type: string
+      enum:
+        - MANAGED
+        - DEVICE
+      example: 'DEVICE'
+
+    SignMethod:
+      type: string
+      enum:
+        - WEB
+        - MOBILE
+        - ANY
+      example: 'WEB'
+
+    DidSpec:
+      type: string
+      enum:
+        - FACTOM_V_1_0
+
+
+    DidKeyInfoRequest:
+      type: object
+      properties:
+        publicKey:
+          type: string
+        keyType:
+          $ref: '#/components/schemas/KeyType'
+        keyEncoding:
+          $ref: '#/components/schemas/KeyEncoding'
+        didSpec:
+          $ref: '#/components/schemas/DidSpec'
+        network:
+          type: string
+          example: "factom"
+
+    DidKeyInfoResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DidKeyInfoRequest'
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+          example: '7774f571-1733-431e-bb64-22a62923d335'
+          readOnly: true
+        did:
+          type: string
+          example: 'did:factom:7d44c36d5092caa9e1cee517cfa3de208a8b86c68320f43132558ce4071fc2b4'
+          readOnly: true
+        didKey:
+          type: string
+          example: 'did:factom:7d44c36d5092caa9e1cee517cfa3de208a8b86c68320f43132558ce4071fc2b4#key-1'
+          readOnly: true
+        keyIndex:
+          type: number
+          readOnly: true
+          example: 1
+        keyId:
+          type: string
+          readOnly: true
+          example: 'key-1'
+
+
+    DeviceDidKeyInfoRequest:
+      type: object
+      properties:
+        uniqueDeviceId:
+          type: string
+          example: '206dcbc7-24b0-406b-9837-2727e4afca24'
+        didKeyInfo:
+          $ref: '#/components/schemas/DidKeyInfoRequest'
+
+
+    DeviceDidKeysInfoResponse:
+      type: object
+      properties:
+        uniqueDeviceId:
+          type: string
+          example: '206dcbc7-24b0-406b-9837-2727e4afca24'
+        id:
+          type: string
+          readOnly: true
+          example: 'ebed338f-de49-44ca-a372-b6dfe6a21091'
+        didKeysInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/DidKeyInfoResponse'
+        authentication:
+          $ref: '#/components/schemas/DeviceAuthentication'
+
+    DevicesDidKeysInfoResponse:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceDidKeysInfoResponse'
+
+    DeviceAuthentication:
+      type: object
+      required:
+        - clientId
+        - clientSecret
+        - realm
+        - idp
+      properties:
+        clientId:
+          type: string
+          readOnly: true
+          example: '206dcbc7-24b0-406b-9837-2727e4afca24'
+        clientSecret:
+          type: string
+          readOnly: true
+          example: '206dcbc7-24b0-406b-9837-2727e4afca24'
+        realm:
+          $ref: '#/components/schemas/Realm'
+
+    Realm:
+      type: object
+      required:
+        - name
+        - idp
+      properties:
+        name:
+          type: string
+          readOnly: true
+          example: 'default'
+        idp:
+          type: string
+          readOnly: true
+          example: 'https://auth.off-blocks.com/auth/realms/default'
+
+    KeyType:
+      type: string
+      enum:
+        - Ed25519VerificationKey2018
+
+    KeyEncoding:
+      type: string
+      enum:
+        - HEX
+        - BASE58
+        - IDPUB
+
+    SubscriptionStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - PAST_DUE
+        - UNPAID
+        - CANCELED
+        - INCOMPLETE
+        - INCOMPLETE_EXPIRED
+        - TRAILING
+      example: 'ACTIVE'
+
+    SubscriptionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'subscription_ID123'
+        status:
+          $ref: '#/components/schemas/SubscriptionStatus'
+        product:
+          $ref: '#/components/schemas/Product'
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'product_ID123'
+        name:
+          type: string
+          example: 'Test product'
+
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'prod_123456abc'
+        name:
+          type: string
+          example: 'prod_name'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Price'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+        limits:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageLimit'
+
+    Price:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'price_12345abc'
+        unitAmount:
+          type: integer
+          format: int64
+          example: 1000
+
+    UsageLimit:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/UsageLimitType'
+        amount:
+          type: integer
+          format: int32
+          example: 10
+
+    Permission:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/PermissionType'
+
+    PermissionType:
+      type: string
+      enum:
+        - WEB_PORTAL_PERMISSION
+        - SIGNING_PERMISSION
+        - REQUEST_PERMISSION
+        - CONTACTS_PERMISSION
+      example: 'WEB_PORTAL_PERMISSION'
+
+    UsageLimitType:
+      type: string
+      enum:
+        - TEMPLATES_LIMIT
+        - USERS_LIMIT
+        - SIGNING_PER_USER_LIMIT
+      example: 'USERS_LIMIT'
+
+    SignCallbackRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        objectChainId:
+          type: string
+          example: 'b9d31ddf9bff5895298dbd4f23993b7cbb2155d891vd61d6a981d03108a3d95e'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-07-21T17:32:28Z'
+        createdBy:
+          type: string
+          example: '5ac96e2a-06f0-11eb-adc1-0242ac120002'
+        signStatus:
+          $ref: '#/components/schemas/SignStatus'
+        signatory:
+          $ref: '#/components/schemas/SignedFileSignatory'
+        file:
+          $ref: '#/components/schemas/SignedFileResponse'
+
+    SignStatus:
+      type: string
+      enum:
+        - USER_NOTIFIED
+        - SIGNED
+        - REJECTED
+        - TIMEOUT
+    SignedFileSignatory:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/SimpleUserResponse'
+        didDetails:
+          $ref: '#/components/schemas/SignedFileDidDetails'
+
+
+    SignedFileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        hash:
+          type: string
+        createAt:
+          type: string
+          format: date-time
+
+    SignedFileDidDetails:
+      type: object
+      properties:
+        did:
+          type: string
+          example: 'did:factom:7d44c36d5092caa9e1cee517cfa3de208a8b86c68320f43132558ce4071fc2b4'
+        didKey:
+          type: string
+          example: 'did:factom:7d44c36d5092caa9e1cee517cfa3de208a8b86c68320f43132558ce4071fc2b4#key-1'
+        didKeyInfo:
+          $ref: '#/components/schemas/DidKeyInfoResponse'
+
+    RequestSignature:
+      type: object
+      properties:
+        fileContent:
+          type: string
+          format: base64
+          example: 'base64'
+        fileName:
+          type: string
+          example: 'filename'
+        signatories:
+          type: array
+          items:
+            $ref: '#/components/schemas/signatory'
+        callback:
+          $ref: '#/components/schemas/SignatureCallback'
+
+    SignatureCallback:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          pattern: '^http[s]?:\/\/*$'
+          description: the location where data will be sent.
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SignStatus'
+
+    RequestSignatureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '0a2f2202-11af-409f-b0e2-df3dbd470556'
+        fileName:
+          type: string
+          example: 'filename'
+        hash:
+          type: string
+          example: 'a5a382963a3e673dd2f79bc6ac7713b3657c105571ee2b9f2e0d833336cc2f26'
+        objectChainId:
+          type: string
+          example: 'b9d31ddf9bff5895298dbd4f23993b7cbb2155d891vd61d6a981d03108a3d95e'
+        signatories:
+          type: array
+          items:
+            $ref: '#/components/schemas/signatory'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-07-21T17:32:28Z'
+        createdBy:
+          type: string
+          example: '5ac96e2a-06f0-11eb-adc1-0242ac120002'
+
+    signatory:
+      type: object
+      properties:
+        emailAddress:
+          type: string
+          example: 'email@email.com'
+
+    #    signup:
+    #      type: object
+    #      properties:
+    #        name:
+    #          type: string
+    #          example: 'name'
+    #        lastName:
+    #          type: string
+    #          example: 'lastname'
+    #        email:
+    #          type: string
+    #          example: 'email@email.com'
+    #        username:
+    #          type: string
+    #          example: 'username'
+    #        password:
+    #          type: string
+    #          example: '%%1234!c'
+    #        managedUser:
+    #          type: boolean
+    #          example: true
+    #
+    #    signupResponse:
+    #      type: object
+    #      properties:
+    #        accessToken:
+    #          type: string
+    #        blockchainId:
+    #          type: string
+    #        customerId:
+    #          type: string
+    #        email:
+    #          type: string
+    #        groups:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/signupGroupResponse'
+    #        id:
+    #          type: string
+    #        joinedAt:
+    #          type: string
+    #        lastName:
+    #          type: string
+    #        name:
+    #          type: string
+    #        roles:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/userRoles'
+    #        staffNumber:
+    #          type: string
+    #        tokenType:
+    #          type: string
+    #        userSettingsDTO:
+    #          $ref: '#/components/schemas/userSettings'
+    #
+    #    userSettings:
+    #      type: object
+    #      properties:
+    #        notifyOnCompletedDocuments:
+    #          type: boolean
+    #          example: true
+    #        notifyOnEachSignature:
+    #          type: boolean
+    #          example: true
+    #        notifyOnSignatureRequest:
+    #          type: boolean
+    #          example: true
+    #        notifyViaEmail:
+    #          type: boolean
+    #          example: true
+    #        notifyViaNotification:
+    #          type: boolean
+    #          example: true
+    #        sound:
+    #          type: boolean
+    #          example: true
+    #        vibrate:
+    #          type: boolean
+    #          example: true
+    #
+    #    userRoles:
+    #      type: object
+    #      properties:
+    #        id:
+    #          type: integer
+    #          format: int32
+    #          example: 0
+    #        name:
+    #          type: string
+    #          enum:
+    #            - ROLE_USER
+    #            - ROLE_ADMIN
+    #            - ROLE_SUPER_ADMIN
+    #          example: 'ROLE_USER'
+    #
+    #    signupGroupResponse:
+    #      allOf:
+    #        - type: object
+    #          properties:
+    #            createdAt:
+    #              type: string
+    #              format: date-time
+    #              example: '2020-07-21T17:32:28Z'
+    #            createdBy:
+    #              type: string
+    #              example: '56c6a412-389d-11eb-adc1-0242ac120002'
+    #            customerId:
+    #              type: string
+    #              example: 'cust_abc123'
+    #            id:
+    #              type: string
+    #              example: '5ac96e2a-06f0-11eb-adc1-0242ac120002'
+    #            name:
+    #              type: string
+    #              example: 'company'
+    #            users:
+    #              type: array
+    #              items:
+    #                $ref: '#/components/schemas/signupUserResponse'
+    #            updatedAt:
+    #              type: string
+    #              format: date-time
+    #              example: '2020-07-21T18:32:28Z'
+    #            updatedBy:
+    #              type: string
+    #              example: '56c6a412-389d-11eb-adc1-0242ac120002'
+    #        - $ref: '#/components/schemas/Group'
+    #
+    #    signupUserResponse:
+    #      type: object
+    #      properties:
+    #        email:
+    #          type: string
+    #          example: 'email@email.com'
+    #        groups:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/GroupResponse'
+    #          example: []
+    #        id:
+    #          type: string
+    #          example: 'af6ba444-06ef-11eb-adc1-0242ac120002'
+    #        jobTitle:
+    #          type: string
+    #          example: 'ceo'
+    #        joinedAt:
+    #          type: string
+    #          format: date-time
+    #          example: '2020-07-21T17:32:28Z'
+    #        lastName:
+    #          type: string
+    #          example: 'lastname'
+    #        name:
+    #          type: string
+    #          example: 'firstname'
+    #        signatoryLists:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/signatoryLists'
+    #        updatedAt:
+    #          type: string
+    #          format: date-time
+    #          example: '2020-07-21T18:32:28Z'
+    #        username:
+    #          type: string
+    #          example: 'username'
+
+    signatoryLists:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'af6ba444-06ef-11eb-adc1-0242ac120002'
+        name:
+          type: string
+          example: 'firstname'
+        signatories:
+          type: array
+          items:
+            $ref: '#/components/schemas/signupUserSignatory'
+
+    signupUserSignatory:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 0
+        signatoriesOrder:
+          type: integer
+          format: int32
+          example: 0
+
+    signin:
+      type: object
+      properties:
+        password:
+          type: string
+          example: 'abc123'
+        usernameOrEmail:
+          type: string
+          example: 'email@email.com'
+
+
+    Customer:
+      type: object
+      required:
+        - name
+        - emailAddress
+      properties:
+        name:
+          type: string
+          example: 'name'
+        emailAddress:
+          type: string
+          example: 'email@email.com'
+        groupId:
+          type: string
+          example: '280fe02a-3b9a-11eb-adc1-0242ac120002'
+
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'cus_IYGsvA73xadnLA'
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionResponse'
+
+    Subscription:
+      type: object
+      required:
+        - paymentMethodId
+        - priceId
+        - quantity
+      properties:
+        paymentMethodId:
+          type: string
+          example: 'pm_1HyEHb2eZvKYlo2COEMjYGh8'
+        priceId:
+          type: string
+          example: 'price_1Hx7482eZvKYlo2C22kjvHwX'
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+
+    CheckoutSession:
+      type: object
+      required:
+        - baseURL
+        - priceId
+      properties:
+        baseURL:
+          type: string
+          example: 'https://www.example.com'
+        priceId:
+          type: string
+          example: 'price_1Hx7482eZvKYlo2C22kjvHwX'
+
+    CheckoutSessionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'cs_test_35YbksFaFCY8ohskc0ais4qelo5BP1KzRISOFP5mA3noLvnU7P4NH3XA'
+
+    InvoiceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'in_19yTU92eZvKYlo2C7uDjvu6v'
+        number:
+          type: string
+          example: 'EF0A41E-0001'
+        created:
+          type: string
+          format: date-time
+          example: '2020-07-21T18:32:28Z'
+        currency:
+          type: string
+          example: 'usd'
+        total:
+          type: number
+          format: currency
+          example: 100.31
+        subtotal:
+          type: number
+          format: currency
+          example: 100.31
+        invoiceLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceLineResponse'
+        status:
+          $ref: '#/components/schemas/InvoiceStatus'
+
+    InvoiceLineResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'il_tmp1HwcvY2eZvKYlo2CisexjUvP'
+        amount:
+          type: number
+          format: currency
+          example: 100.31
+        quantity:
+          type: integer
+          format: int64
+          example: 1
+        description:
+          type: string
+          example: 'INVOICE ALL THE THINGS'
+        period:
+          $ref: '#/components/schemas/InvoiceLinePeriod'
+
+    InvoiceLinePeriod:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+          example: '2020-07-21T18:32:28Z'
+        end:
+          type: string
+          format: date-time
+          example: '2020-08-21T18:32:28Z'
+
+    InvoiceStatus:
+      type: string
+      enum:
+        - DRAFT
+        - CREATED
+        - PAID
+        - FULFILLED
+        - REFUNDED
+      example: 'DRAFT'
+
+
+  parameters:
+    groupIdFilter:
+      name: groupId
+      in: query
+      schema:
+        type: string
+
+    userIdFilter:
+      name: userId
+      in: query
+      schema:
+        type: string
+
+    sort:
+      name: sort
+      in: query
+      description: Should be used in value pairs, fieldname and sort order. An implementation may or may not support the use of multiple value pairs.
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          required: [fieldname, sortorder]
+        example: ['fieldname', 'asc']
+
+    skip:
+      name: skip
+      in: query
+      description: Skip the specified amount of records from the result set. Can be used in combination with Limit.
+      schema:
+        type: integer
+        format: int32
+        example: 5
+
+    limit:
+      name: limit
+      in: query
+      description: Limit the amount of returned objects to the set limit.
+      schema:
+        type: integer
+        format: int32
+        example: 9
+
+    ids:
+      name: ids
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['f7a0b92e-06f0-11eb-adc1-0242ac120002','fdd5089a-06f0-11eb-adc1-0242ac120002']
+
+    names:
+      name: names
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['name1', 'name2']
+
+    firstNames:
+      name: firstNames
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['firstname1', 'firstname2']
+
+    lastNames:
+      name: lastNames
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['lastname1', 'lastname2']
+
+    types:
+      name: types
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['type1', 'type2']
+
+    subscriptionNames:
+      name: subscriptionNames
+      in: query
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example: ['subscription_name1', 'subscription_name2']
+
+    groupId:
+      name: groupId
+      in: path
+      description: ID of group
+      required: true
+      schema:
+        type: string
+      example: '280fe02a-3b9a-11eb-adc1-0242ac120002'
+
+    userId:
+      name: userId
+      in: path
+      description: ID of user
+      required: true
+      schema:
+        type: string
+
+    sessionId:
+      name: sessionId
+      in: path
+      description: ID of session
+      required: true
+      schema:
+        type: string
+
+    token:
+      name: token
+      in: path
+      description: Verification Token
+      required: true
+      schema:
+        type: string
+
+    deviceId:
+      name: deviceId
+      in: path
+      description: Device Id associated with DID
+      required: true
+      schema:
+        type: string
+
+    did:
+      name: did
+      in: path
+      description: DID of the user
+      required: true
+      schema:
+        type: string
+
+    productId:
+      name: productId
+      in: path
+      description: ID of the product
+      required: true
+      schema:
+        type: string
+      example: 'prod_123456abc'
+
+    customerId:
+      name: customerId
+      in: path
+      description: ID of customer
+      required: true
+      schema:
+        type: string
+      example: 'cus_IYGsvA73xadnLA'
+
+    subscriptionId:
+      name: subscriptionId
+      in: path
+      description: ID of subscription
+      required: true
+      schema:
+        type: string
+      example: 'sub_36VrPHS2vVxJMq'
+
+    priceId:
+      name: priceId
+      in: path
+      description: ID of price
+      required: true
+      schema:
+        type: string
+      example: 'id_1Hx7482eZvKYlo2C22kjvHwX'
+
+  requestBodies:
+    Group:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Group'
+      required: true
+
+    GroupUsers:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GroupUsers'
+      required: true
+
+    AddUser:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddUser'
+      required: true
+
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+      required: true
+
+    DeviceDidKeyRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceDidKeyInfoRequest'
+      required: true
+
+    VerificationInitiationRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VerificationInitiation'
+      required: true
+
+    DeviceOnboardingInitiationRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceOnboardingInitiation'
+      required: true
+
+    VerificationCompletionRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VerificationCompletion'
+      required: true
+
+    DeviceOnboardingCompletionRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceOnboardingCompletion'
+      required: true
+
+    RequestSignature:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RequestSignature'
+      required: true
+
+    #    signin:
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/signin'
+    #      required: true
+    #
+    #    signup:
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/signup'
+    #      required: true
+    #
+    #    signupUserResponse:
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/signupUserResponse'
+    #      required: true
+
+    Customer:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
+      required: true
+
+    Subscription:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Subscription'
+      required: true
+
+    CheckoutSession:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckoutSession'
+      required: true
+
+    SignCallbackRequestPost:
+      content:
+        aplication/json:
+          schema:
+            $ref: '#/components/schemas/SignCallbackRequest'
+      required: true
